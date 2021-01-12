@@ -1,0 +1,44 @@
+#map { height: 100%; width: 100%; }
+
+/*.grovalNavigation { 
+	display: flex;
+	justify-content: space-between;
+}*/
+.grovalNavigation .btn{
+	float: left;
+}
+
+.goal-bottons {
+	display: flex;
+	justify-content: space-around;
+}
+
+h3 { text-align: center; }
+
+.reverse-next {
+	display: flex;
+	justify-content: center;
+}
+
+.goalname {
+	font-size: 1.5vw;
+}
+
+@media only screen and (max-width:600px) {
+	#map { height: 60vw; width: 100vw; }
+
+	.goalname {
+		font-size: 3vw;
+	}
+
+	.btn span {
+		font-size: 3.5vw;
+	}
+	.localNavigation {
+		text-align: left;
+	}
+
+	.btn-group-vertical{
+		display: flex;
+	}
+}

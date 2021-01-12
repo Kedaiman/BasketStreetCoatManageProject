@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<header>
+		<h1 style="text-align:center">ゴール登録</h1> 
+    </header>
+{% endblock header %}
+
+{% block content %}
+
+{% for Error in errorList %}
+	<p align="center"><font color="red">{{Error}}</font></p><br>
+{% endfor %}
+
+<p align="center"><font color="red">{{error}}</font></p><br>
+
+<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+
+	<!-- Pタグの中にフォームを入れるというDjango特有のタグ -->
+	<table border="1" align="center">
+		<tr>
+			<th bgcolor="#000080" width="200"><font color="#FFFFFF">項目</font></th>
+			<th bgcolor="#000080" width="200"><font color="#FFFFFF">内容</font></th>
+		</tr>
+		{% for field in form %}
+			<tr>
+				<td align="center">{{ field.label_tag }}</td>
+				<td align="center">{{ field }} </td>
+			</tr>
+		{% endfor %}
+
+		<tr>
+			<td colspan="2" align="center">
+				<input type="submit" value="登録">
+			</td>
+		</tr>
+	</table>
+</form>
+{% endblock content %}

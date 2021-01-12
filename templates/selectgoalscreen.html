@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block customcss %}
+	<link rel='stylesheet' type='text/css' href="{% static 'index.css' %}">
+	<link rel='stylesheet' type='text/css' href="{% static 'map.css' %}">
+	<script defer
+			src={{GOOGLE_API_KEY_URL}}>
+	</script>
+{% endblock customcss %}
+
+{% block header %}
+	<header class="grovalNavigation">
+		<a href="{% url 'index' %}" class="btn btn-primary btn-lg" role="button" aria-pressed="true">戻る</a>
+		<h1>{{request.session.prefecture.name}}</h1> 
+    </header>
+{% endblock header %}
+
+{% block content %}
+	<main>
+		<div class="content">
+
+			<!-- メッセージ部 -->
+			{% if error or message %}
+				<p align="center"> <font color="red">{{ error }} </font></p> <br>
+				<p align="center"> {{message}} </p> <br>
+			{% endif %}
+
+			<!--The div element for the map -->
+			<div id="map"></div>
+			<script>
+				{% if goal_latlon_list %}
+					// Initialize and add the map
+					function initMap() {
+						var marker = [];
+						var center_place = {lat: {{request.session.prefecture.lat}}, lng: {{request.session.prefecture.lon}}};
+						var map = new google.maps.Map(
+							document.getElementById('map'), {zoom: 7, center: center_place});
+						var i = 0;
+						{% for lat, lon in goal_latlon_list %}	
+							var mapLatLng = new google.maps.LatLng({lat: {{lat}}, lng: {{lon}}}); 
+							marker[i] = new google.maps.Marker({position: mapLatLng, map: map});
+							i = i++;
+						{% endfor %}
+					}
+				{% else %}
+					// Initialize and add the map
+					function initMap() {
+						var center_place = {lat: {{request.session.prefecture.lat}}, lng: {{request.session.prefecture.lon}}};
+						{% if lat %}
+							var center_place = {lat: {{lat}}, lng: {{lon}}};
+							var goal_place = {lat: {{lat}}, lng: {{lon}}};
+						{% endif %}
+
+						var map = new google.maps.Map(
+							document.getElementById('map'), {zoom: 11, center: center_place});
+						var marker = new google.maps.Marker({position: goal_place, map: map});
+					}
+				{% endif %}
+			</script>        
+		</div>
+
+		<div class="localNavigation">
+			<div class="btn-group-vertical">
+				{% for goal in request.session.goal_list %}
+					<span class="goalname">{{ goal.name }}</span>
+					<span class = "goal-bottons">
+						<a href="{% url 'showposition' goal.pk %}" class="btn btn-primary btn-lg" role="button" aria-pressed="true"><span>位置確認</span></a>
+						<a href="{% url 'detailgoalscreen' goal.pk %}" class="btn btn-warning btn-lg" role="button" aria-pressed="true"><span>詳細表示</span></a>
+					</span>
+				{% endfor %}
+				<br><br>
+				<div class = "reverse-next">
+					{% if goal_page != 1 %}
+						<a href="{% url 'reverse' 'goal_list' %}" class="btn btn-info btn-sm" role="button" aria-pressed="true">前へ</a>
+					{% else %}
+						<a href="{% url 'reverse' 'goal_list' %}" class="btn btn-info btn-sm disabled" role="button">前へ</a>
+					{% endif %}
+
+					{% if goal_page != goal_page_max %}
+						<a href="{% url 'next' 'goal_list' %}" class="btn btn-info btn-sm" role="button" aria-pressed="true">次へ</a>
+					{% else %}
+						<a href="{% url 'next' 'goal_list' %}" class="btn btn-info btn-sm disabled" role="button" aria-pressed="true">次へ</a>
+					{% endif %}
+				</div>
+				<p> {{ goal_page }} / {{ goal_page_max }} ページ</p>
+			</div>
+		</div>
+    </main>
+{% endblock content %}

@@ -1,0 +1,31 @@
+<div class = "update-info">
+	<div class="btn-group btn-group-toggle" data-toggle="buttons">
+		<label class="btn btn-secondary">
+			<a href="{% url 'detailgoalscreen' request.session.goal.pk %}">変更履歴</a>
+		</label>
+
+		<label class="btn btn-secondary active">
+			<a href="{% url 'changeapplication' %}">変更申請作成</a>
+		</label>
+
+		<label class="btn btn-secondary">
+			<a href="{% url  'showchangeapplicationhistory' %}">変更申請表示</a>
+		</label>
+	</div>
+</div>
+
+<!-- メッセージゾーン-->
+{% for Error in errorList %}
+	<p align="center"><font color="red">{{ Error }}</font> </p> <br>
+{% endfor %}
+
+<p align="center"><font color="red">{{ error }}</font> <br>
+
+<form action="{% url 'changeapplication' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+	<!-- Pタグの中にフォームを入れるというDjango特有のタグ -->
+	{{form.as_p}}
+	<input type="hidden" name="act" value="update">
+	<input type="submit" value="投稿する">
+</form>
+
+

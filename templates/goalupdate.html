@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<form action="" method="POST">{% csrf_token %}
+		<!-- Pタグの中にフォームを入れるというDjango特有のタグ -->
+		{{form.as_p}}
+		<input type="submit" value="作成する">
+	</form>
+{% endblock content %}

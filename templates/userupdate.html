@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<header>
+		<h1 style="text-align:center">ユーザー情報更新</h1> 
+    </header>
+{% endblock header %}
+
+{% block content %}
+	<p align="center"> ユーザー更新情報を入力してください</p> 
+	<p align="center">変更する項目のみ入力してください。変更しない内容は空欄でお願いします。</p><br><br>
+
+	{% for Error in errorList %}
+		<p align="center"><font color="red"> {{Error}} </font></p> <br>
+	{% endfor %}
+
+	<p align="center"> {{ error }} </p> <br>
+
+	<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+		<table border="1" align="center">
+			<tr>
+				<th bgcolor="#000080" width="200"><font color="#FFFFFF">項目</font></th>
+				<th bgcolor="#000080" width="200"><font color="#FFFFFF">内容</font></th>
+			</tr>
+
+			{% for field in form %}
+				<tr>
+					<td align="center">{{ field.label_tag }}</td>
+					<td align="center">{{ field }} </td>
+				</tr>
+			{% endfor %}
+
+			<tr>
+				<td colspan="2" align="center">
+					<input type="submit" value="登録">
+				</td>
+			</tr>
+		</table>
+	</form>
+{% endblock content %}

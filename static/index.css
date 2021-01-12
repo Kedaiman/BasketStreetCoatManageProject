@@ -1,0 +1,96 @@
+body{
+    display: flex;
+    flex-direction: column;
+}
+.grovalNavigation{
+	height: 7vw;
+    text-align: center;
+    background-color: #778899;
+    color: #fff;
+	padding: 0.5em 0;
+	border-top: solid 3px #364e96;
+	border-bottom: solid 3px #364e96;
+}
+
+main{
+    min-height: 100vh;
+    display: flex;
+    margin-top: 10px;
+}
+
+.content{
+    flex: 1;
+    background-color: #eee;
+    text-align: center;
+    margin-left: 10px;
+}
+
+.localNavigation{
+	width: 20vw;
+    text-align: center;
+    background-color: #778899;
+    color: #fff;
+	border-top: solid 3px #364e96;
+	border-bottom: solid 3px #364e96;
+	border-left: solid 3px #364e96;
+	border-right: solid 3px #364e96;
+}
+
+.btn span {
+	font-size: 1.5vw;
+}
+
+
+.grovalNavigation .title {
+	font-size: 3.5vw;
+}
+
+.username {
+	position:absolute;
+	left:2%;
+	top:2%;
+	font-size: 1.5vw;
+}
+
+.break:before {
+    content: "\A";
+		white-space: pre; /* ←あわせてこれを指定しないと改行しない場合があるらしい */
+}
+
+
+@media only screen and (max-width:600px) {
+	main{
+		min-height: 100vh;
+		display: block;
+		margin-top: 10px;
+	}
+
+	.localNavigation{
+		width: 100vw;
+    }
+
+	.grovalNavigation{
+		height: 20vw;
+    }
+
+	.break:before {
+		content: "";
+	}
+	
+	.btn {
+		padding: 2px;
+		margin: 0.0vw;
+	}
+
+	.btn span {
+		font-size: 3.5vw;
+	}
+
+	.username {
+		font-size: 1.0vw;
+	}
+
+	.grovalNavigation .title {
+		font-size: 4.5vw;
+	}
+}

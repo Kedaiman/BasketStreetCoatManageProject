@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+</head>
+
+<body>
+	<div class="btn-group btn-group-toggle" data-toggle="buttons">
+		<label class="btn btn-secondary">
+			<a href="{% url 'detailgoalscreen' request.session.goal.pk %}">感想表示</a>
+		</label>
+
+		<label class="btn btn-secondary active">
+			<a href="{% url 'impression' %}">感想投稿</a>
+	    </label>
+	</div> <br>
+
+	<!-- メッセージ部-->
+	<p align="center"><font color="red">{{message}}</font></p><br>
+
+	<!-- フォーム部 -->
+	<form action="{% url 'impression' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+		<!-- Pタグの中にフォームを入れるというDjango特有のタグ -->
+		{{form.as_p}}
+		<input type="submit" value="投稿する">
+	</form>
+</body>
+</html>

@@ -1,0 +1,106 @@
+{%  extends 'base.html' %}
+{% load static %}
+
+{% block customcss %}
+	<link rel='stylesheet' type='text/css' href="{% static 'detail.css' %}">
+{% endblock customcss %}
+
+{% block header %}
+	<header class="grovalNavigation" >
+		<a href="{% url 'selectgoalscreen' request.session.goal.prefecture_id.pk %}" class="btn btn-primary btn-lg" role="button" aria-pressed="true">戻る</a>
+		<h1>{{ request.session.goal.name }}</h1>
+
+		<!-- 削除ポップアップ(ログイン後のみ表示)-->
+		{% if request.session.user %}
+			<div class="pop-box"> 
+				<label for="popup-on"><div class="btn-open">削除申請</div></label>
+				<input type="checkbox" id="popup-on">
+				<div class="popup">
+					<label for="popup-on" class="icon-close">✖︎</label>
+					<div class="popup-content">
+					   <!-- ポップアップの中身 -->
+					   {{request.session.goal.name}}に対して削除申請を出しますか？<br>
+					   <a href="{% url 'deleteapplication' %}"><span>OK</span></a><br>
+						<!-- ./ポップアップの中身　ここまで -->
+					</div>
+				</div>
+			</div>
+		{% endif %}
+		<!-- 削除ポップアップ終了-->
+    </header>
+{% endblock header %}
+
+
+{% block content %}
+	<main>
+		<!-- バスケリング情報 -->
+		<div class="goalinfomation">
+			<div class="content">
+				{% if request.session.goal.image %}
+					<p><img border="0" src="{{request.session.goal.image.url}}" width="500" height="500" alt="ゴール画像"></p>
+				{% else %}
+					<p><img border="0" src="/static/no_image.png" alt="画像がありません"></p>
+				{% endif %}
+				<!-- お気に入り数表示 -->
+				{% include "./good.html" %}
+
+				<table border align="center">
+					<tr>
+						<td>住所</td>
+						<td>{{ request.session.goal.prefecture_id.name }} {{ request.session.goal.address }} </td>
+					</tr>
+
+					<tr>
+						<td>名前</td>
+						<td>{{ request.session.goal.name }} </td>
+					</tr>
+
+					<tr>
+						<td>利用可能開始時間</td>
+						<td>{{ request.session.goal.starttime }}</td>
+					</tr>
+
+					<tr>
+						<td>利用可能終了時間</td>
+						<td>{{ request.session.goal.endtime }}</td>
+					</tr>
+
+					<tr>
+						<td>URL</td>
+						<td>{{ request.session.goal.url }}</td>
+					</tr>
+
+					<tr>
+						<td>説明</td>
+						<td>{{ request.session.goal.explanation }}</td>
+					</tr>
+
+					<tr>
+						<td>補足</td>
+						<td>{{ request.session.goal.otherinfo }}</td>
+					</tr>
+				</table> 
+			</div>
+		</div>
+
+		<!-- 感想 -->
+		<div class="localNavigation" id="impression_frame">
+			{% if param == 0 %}
+				{% include "./impression_frame.html" %}
+			{% elif param == 1 %}
+				{% include "./impression_submit_frame.html" %}
+			{% endif %}
+		</div>
+		<!-- 変更履歴 -->
+		<!-- <div class="goalinfoupdate_frame"> -->
+		<div class="localNavigation" id="changeupdate">
+			{% if param2 == 0 %}
+				{% include "./changehis_frame.html" %}
+			{% elif param2 == 1 %}
+				{% include "./change_submit_frame.html" %}
+			{% elif param2 == 2 %}
+				{% include "./changeapp_frame.html" %}
+			{% endif %}
+		</div>
+    </main>
+{% endblock content %}
